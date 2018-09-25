@@ -14,7 +14,13 @@ app.post('/product', function(request, response){
     var product = new Product();
     product.title = request.body.title;
     product.price = request.body.price;
-    product.likes = 0;
+    product.save(function(err, savedProduct){
+        if (err) {
+            response.status(500).send({error:"Could not save product"});
+        } else {
+            response.send(savedProduct);
+        }
+    })
 });
 
 app.listen(3000, function(){
